@@ -15,7 +15,7 @@ class _HTTPClientHolder:
         self._client = None
 
     def init(self):
-        self._client = httpx2.Client(
+        self._client = httpx2.AsyncClient(
             timeout=httpx2.Timeout(
                 connect=5.0,
                 read=30.0,
@@ -23,7 +23,7 @@ class _HTTPClientHolder:
                 pool=10.0
             ),
             limits=httpx2.Limits(
-                max_connections=1000,
+                max_connections=900,
                 keepalive_expiry=0.0,
             ),
             verify=False,
@@ -34,10 +34,10 @@ class _HTTPClientHolder:
             raise RuntimeError('HTTP client not initialized')
         return self._client
 
-    def close(self):
+    async def close(self):
         if self._client is not None:
             with suppress(Exception):
-                self._client.close()
+                await self._client.close()
             self._client = None
 
 
