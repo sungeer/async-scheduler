@@ -11,11 +11,10 @@ from src.jobs import register_jobs
 async def run():
     setup_logger()
 
-    loop = asyncio.get_running_loop()
     stop_event = asyncio.Event()
 
     def on_sigterm(signum, frame):  # noqa
-        loop.call_soon_threadsafe(stop_event.set)  # type: ignore
+        stop_event.set()
 
     signal.signal(signal.SIGTERM, on_sigterm)
     signal.signal(signal.SIGINT, on_sigterm)
