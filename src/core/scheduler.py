@@ -1,18 +1,18 @@
-from apscheduler.executors.pool import ThreadPoolExecutor
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.executors.asyncio import AsyncIOExecutor
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from src import settings
 
 
-def build_scheduler() -> BackgroundScheduler:
-    scheduler = BackgroundScheduler(
+def build_scheduler() -> AsyncIOScheduler:
+    scheduler = AsyncIOScheduler(
         executors={
-            'default': ThreadPoolExecutor(settings.TASK_WORKERS),  # 任务可互相并行
+            'default': AsyncIOExecutor(),
         },
         job_defaults={
-            'max_instances': 1,  # 到点若还在跑,本次跳过
-            'coalesce': True,  # 若真错过多次,只补最后一次
-            'misfire_grace_time': settings.MISFIRE_GRACE_TIME,  # 触发延迟超过该秒数才视为错过
+            'max_instances': 1,
+            'coalesce': True,
+            'misfire_grace_time': settings.MISFIRE_GRACE_TIME,
         },
         timezone=settings.TIMEZONE,
     )
