@@ -33,5 +33,4 @@ LOG_DIR = Path(os.getenv('LOG_DIR', default=str(BASE_DIR / 'logs')))
 
 # 调度器
 TIMEZONE = os.getenv('TIMEZONE', default='Asia/Shanghai')
-TASK_WORKERS = int(os.getenv('TASK_WORKERS', default='40'))
 MISFIRE_GRACE_TIME = int(os.getenv('MISFIRE_GRACE_TIME', default='60'))
