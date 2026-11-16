@@ -37,7 +37,7 @@ class _HTTPClientHolder:
     async def close(self):
         if self._client is not None:
             with suppress(Exception):
-                await self._client.close()
+                await self._client.aclose()
             self._client = None
 
 
